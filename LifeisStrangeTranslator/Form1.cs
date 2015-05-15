@@ -199,23 +199,6 @@ namespace LifeisStrangeTranslator
             MessageBox.Show("Converted successfully to *.csv format");
         }
 
-        private void directoryToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            FolderBrowserDialog folderDialog = new FolderBrowserDialog();
-
-            if (folderDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-            {
-                //Tabelle leeren
-                dataGridView1.Rows.Clear();
-                //Datei verarbeiten
-                string path = folderDialog.SelectedPath;
-                string[] files = Directory.GetFiles(path);
-
-                foreach (string file in files)
-                    CSV2TransFile(file);
-            }
-        }
-
         private void cSVToTransToolStripMenuItem_Click(object sender, EventArgs e)
         {
             OpenFileDialog fileDialog = new OpenFileDialog();

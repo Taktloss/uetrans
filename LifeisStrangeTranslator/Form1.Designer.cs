@@ -31,11 +31,9 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.toolStripMenuItemMain = new System.Windows.Forms.ToolStripMenuItem();
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.fileToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.directoryToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.importToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.translationFileToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.cSVToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.directoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exportToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.cSVToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.translationFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -45,8 +43,6 @@
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.ID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Text = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.fileToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.directoryToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
@@ -81,44 +77,25 @@
             this.openToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.openToolStripMenuItem.Text = "Open";
             // 
+            // fileToolStripMenuItem1
+            // 
+            this.fileToolStripMenuItem1.Name = "fileToolStripMenuItem1";
+            this.fileToolStripMenuItem1.Size = new System.Drawing.Size(122, 22);
+            this.fileToolStripMenuItem1.Text = "File";
+            this.fileToolStripMenuItem1.Click += new System.EventHandler(this.fileToolStripMenuItem1_Click);
+            // 
+            // directoryToolStripMenuItem1
+            // 
+            this.directoryToolStripMenuItem1.Name = "directoryToolStripMenuItem1";
+            this.directoryToolStripMenuItem1.Size = new System.Drawing.Size(122, 22);
+            this.directoryToolStripMenuItem1.Text = "Directory";
+            this.directoryToolStripMenuItem1.Click += new System.EventHandler(this.directoryToolStripMenuItem1_Click);
+            // 
             // importToolStripMenuItem1
             // 
-            this.importToolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.fileToolStripMenuItem,
-            this.directoryToolStripMenuItem});
             this.importToolStripMenuItem1.Name = "importToolStripMenuItem1";
             this.importToolStripMenuItem1.Size = new System.Drawing.Size(55, 20);
             this.importToolStripMenuItem1.Text = "Import";
-            // 
-            // fileToolStripMenuItem
-            // 
-            this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.translationFileToolStripMenuItem1,
-            this.cSVToolStripMenuItem});
-            this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.fileToolStripMenuItem.Text = "File";
-            // 
-            // translationFileToolStripMenuItem1
-            // 
-            this.translationFileToolStripMenuItem1.Name = "translationFileToolStripMenuItem1";
-            this.translationFileToolStripMenuItem1.Size = new System.Drawing.Size(154, 22);
-            this.translationFileToolStripMenuItem1.Text = "Translation File";
-            this.translationFileToolStripMenuItem1.Click += new System.EventHandler(this.translationFileToolStripMenuItem1_Click);
-            // 
-            // cSVToolStripMenuItem
-            // 
-            this.cSVToolStripMenuItem.Name = "cSVToolStripMenuItem";
-            this.cSVToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
-            this.cSVToolStripMenuItem.Text = "CSV";
-            this.cSVToolStripMenuItem.Click += new System.EventHandler(this.cSVToolStripMenuItem_Click);
-            // 
-            // directoryToolStripMenuItem
-            // 
-            this.directoryToolStripMenuItem.Name = "directoryToolStripMenuItem";
-            this.directoryToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.directoryToolStripMenuItem.Text = "Directory";
-            this.directoryToolStripMenuItem.Click += new System.EventHandler(this.directoryToolStripMenuItem_Click);
             // 
             // exportToolStripMenuItem1
             // 
@@ -191,20 +168,6 @@
             this.Text.Name = "Text";
             this.Text.Width = 91;
             // 
-            // fileToolStripMenuItem1
-            // 
-            this.fileToolStripMenuItem1.Name = "fileToolStripMenuItem1";
-            this.fileToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
-            this.fileToolStripMenuItem1.Text = "File";
-            this.fileToolStripMenuItem1.Click += new System.EventHandler(this.fileToolStripMenuItem1_Click);
-            // 
-            // directoryToolStripMenuItem1
-            // 
-            this.directoryToolStripMenuItem1.Name = "directoryToolStripMenuItem1";
-            this.directoryToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
-            this.directoryToolStripMenuItem1.Text = "Directory";
-            this.directoryToolStripMenuItem1.Click += new System.EventHandler(this.directoryToolStripMenuItem1_Click);
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -234,12 +197,8 @@
         private System.Windows.Forms.ToolStripMenuItem exportToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem cSVToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem translationFileToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem directoryToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem convertToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem cSVToTransToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem translationFileToolStripMenuItem1;
-        private System.Windows.Forms.ToolStripMenuItem cSVToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem transToCSVToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem directoryToolStripMenuItem1;
