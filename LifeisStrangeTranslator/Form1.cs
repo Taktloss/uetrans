@@ -12,8 +12,9 @@ using Microsoft.Win32;
 
 namespace LifeisStrangeTranslator
 {
-    public partial class Form1 : Form
-    {
+
+        public partial class Form1 : Form
+        {
         string[] fileEntrys;
         string tempFilename;
         List<string[]> tempList;
@@ -23,15 +24,46 @@ namespace LifeisStrangeTranslator
             InitializeComponent();
         }
 
+      /*  public static class Extentions
+        {
+            public static DataGridView Clone(this DataGridView oldDGV)
+            {
+                DataGridView newDGV = new DataGridView();
+
+                newDGV.Size = oldDGV.Size;
+                newDGV.Anchor = oldDGV.Anchor;
+
+                return newDGV;
+            }
+        }
+            */
+
+        private bool charcheck(string line)
+        {
+            string temp = line[0].ToString();
+            switch(temp)
+            {
+                case "[": return true;
+                    break;
+                case "#": return true;
+                    break;
+                default: return false;
+            }
+
+        }
+
         private void parseTranslationFile(string filename)
         {
             tempList = new List<string[]>();
+            StreamReader sr = new StreamReader(filename);
+            Encoding enc = sr.CurrentEncoding;
 
             fileEntrys = File.ReadAllLines(filename);
             //Tabelle füllen
             foreach (string line in fileEntrys)
             {
-                if (!line.StartsWith("["))
+                bool check = charcheck(line);
+                if (!check && line.Length != 0)
                 {
                     string[] temp = line.Split('=');
                     DataGridViewRow row = (DataGridViewRow)dataGridView1.Rows[0].Clone();
@@ -40,7 +72,7 @@ namespace LifeisStrangeTranslator
                     dataGridView1.Rows.Add(row);
                     tempList.Add(temp);
                 }
-                else
+                else if (line.Length != 0)
                 {
                     DataGridViewRow row = (DataGridViewRow)dataGridView1.Rows[0].Clone();
                     string[] templine = new string[2];
@@ -161,34 +193,40 @@ namespace LifeisStrangeTranslator
 
         private void translationFileToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            string CSVFilename = "test.GER";
-            StreamWriter TransFile = new StreamWriter(CSVFilename + ".GER");
+            SaveFileDialog saveDlg = new SaveFileDialog();
+            saveDlg.Filter = "English|*.INT| German|*.GER";
 
-            //Datei verarbeiten
-            foreach (DataGridViewRow row in dataGridView1.Rows)
+            if (saveDlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                string[] sValues = new string[2];
-                sValues[0] = (string)row.Cells[0].Value;
-                sValues[1] = (string)row.Cells[1].Value;
+                string CSVFilename = "test.GER";
+                StreamWriter TransFile = new StreamWriter(CSVFilename + ".GER", false, Encoding.Unicode);
 
-                if (sValues[0] != null)
+                //Datei verarbeiten
+                foreach (DataGridViewRow row in dataGridView1.Rows)
                 {
-                    if (!row.Cells[0].Value.ToString().StartsWith("["))
-                    {
-                        StringBuilder sb = new StringBuilder();
-                        sb.AppendFormat("{0}=\"{1}\"", sValues[0], sValues[1]);
-                        sb.Replace("\"\"", "\"");
+                    string[] sValues = new string[2];
+                    sValues[0] = (string)row.Cells[0].Value;
+                    sValues[1] = (string)row.Cells[1].Value;
 
-                        TransFile.WriteLine(sb.ToString());
-                    }
-                    else
+                    if (sValues[0] != null)
                     {
-                        tempList.Add(sValues);
-                        TransFile.WriteLine(sValues[0]);
+                        if (!row.Cells[0].Value.ToString().StartsWith("["))
+                        {
+                            StringBuilder sb = new StringBuilder();
+                            sb.AppendFormat("{0}=\"{1}\"", sValues[0], sValues[1]);
+                            sb.Replace("\"\"", "\"");
+
+                            TransFile.WriteLine(sb.ToString());
+                        }
+                        else
+                        {
+                            tempList.Add(sValues);
+                            TransFile.WriteLine(sValues[0]);
+                        }
                     }
                 }
+                TransFile.Close();
             }
-            TransFile.Close();
         }
 
         private void cSVToolStripMenuItem1_Click(object sender, EventArgs e)
@@ -223,11 +261,6 @@ namespace LifeisStrangeTranslator
             }
         }
 
-        private void transToCSVToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void cSVToolStripMenuItem_Click(object sender, EventArgs e)
         {
             OpenFileDialog fileDialog = new OpenFileDialog();
@@ -239,7 +272,7 @@ namespace LifeisStrangeTranslator
                 parseCSVFile(fileDialog.FileName);
             }
         }
-
+        
         private void directoryToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             FolderBrowserDialog folderDialog = new FolderBrowserDialog();
@@ -253,7 +286,32 @@ namespace LifeisStrangeTranslator
                 string[] files = Directory.GetFiles(path);
 
                 foreach (string file in files)
-                    CSV2TransFile(file);
+                {
+                    int index = file.LastIndexOf("\\");
+                    string temp = file.Substring(index+1);
+                    //tabControl1.TabPages.Add(temp);
+                    //Clone DataGridView1
+                    DataGridView cloneDGV = new DataGridView();
+
+                    int i = 0;
+                    foreach(DataGridViewColumn col in this.dataGridView1.Columns)
+                    {
+                        cloneDGV.Columns.Add(new DataGridViewColumn(col.CellTemplate));
+                        cloneDGV.Columns[i].HeaderText = col.HeaderText;
+                        cloneDGV.Columns[i].AutoSizeMode = col.AutoSizeMode;
+
+                        i++;
+                    }
+                    TabPage tp = new TabPage();
+                    tp.Text = temp;
+                    tp.Controls.Add(cloneDGV);
+                    tabControl1.TabPages.Add(tp);
+
+
+                    //CSV2TransFile(file);
+                    parseTranslationFile(file);
+
+                }
             }
         }
 
@@ -265,15 +323,16 @@ namespace LifeisStrangeTranslator
             {
                 switch (fileDialog.FilterIndex) 
                 { 
-                    case 1: //Tabelle leeren und Datei verarbeiten
+                    case 1: //Tabelle leeren und Übersetzungsdatei verarbeiten
                             dataGridView1.Rows.Clear();
                             parseTranslationFile(fileDialog.FileName);
                             break;
-                    case 2: //Tabelle leeren und Datei verarbeiten
+                    case 2: //Tabelle leeren und CSV Datei verarbeiten
                             dataGridView1.Rows.Clear();
                             parseCSVFile(fileDialog.FileName);
                             break;
-                    default: break;
+                    default: 
+                            break;
                 }
             }
         }
